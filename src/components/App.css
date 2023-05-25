@@ -1,0 +1,74 @@
+/* Estilos en App.jsx*/
+.App {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.main--container{
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3%;
+  gap: 15px 5px;
+}
+
+/*Estilos contedor principal*/
+.main__tree{
+  width: 100vw;
+  height: 50vh;
+  top: 0px;
+  left: 0px;
+    /* From https://css.glass */
+background: rgba(255, 255, 255, 0.14);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/*Estilos contenedor cytospace*/
+#cy{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+/*Estilos menu de control del arbol*/
+.tree__control{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 20px;
+  gap: 0px 5px;
+  justify-content: space-around;
+  /* From https://css.glass */
+background: rgba(255, 255, 255, 0.14);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tree__control--container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn{
+  font-size: 20px;
+  margin: 30px 5px 0px 5px;
+}
+
+
