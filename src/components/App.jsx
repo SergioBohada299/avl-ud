@@ -14,11 +14,6 @@ export const App = () => {
     const [del,setDel] = useState([]);
     const [build,setBuild] = useState(false);
     const [err,setErr] = useState(false);
-    if(err != false){
-        setAdd([])
-        setDel([])
-        setErr(false);
-    }
     console.log("Traido desde Control a app:"+add);
     console.log("Traido desde Control a app:"+del);
     console.log("--------- FIN Modulo ---------");
@@ -31,8 +26,8 @@ export const App = () => {
     return (
         <div className='App'>
             <div className='main--container'>
-            <TreeWindow add={add} build={build} setBuild={setBuild}></TreeWindow>
-            <TreeControl setAdd={setAdd} setDel={setDel} add={add} del={del} setErr={setErr} setBuild={setBuild} build={build}></TreeControl>
+            <TreeWindow add={add} build={build} setBuild={setBuild} err={err} setErr={setErr} setAdd={setAdd} setDel={setDel}></TreeWindow>
+            <TreeControl setAdd={setAdd} setDel={setDel} add={add} del={del} setErr={setErr} setBuild={setBuild} build={build} err={err}></TreeControl>
             <TreeEstruc add={add} ></TreeEstruc>
 
             </div>

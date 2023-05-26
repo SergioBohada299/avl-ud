@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import cytoscape from "cytoscape";
-import { drawNode, hasChildren, casePicker,changePos } from "../../utils/treeContext.js";
+import {
+  drawNode,
+  hasChildren,
+  casePicker,
+  changePos,
+} from "../../utils/treeContext.js";
 import {
   addNode,
   findValue,
@@ -11,7 +16,7 @@ import {
 } from "./../../utils/binariContext.js";
 import { Options } from "./../../utils/layaout.js";
 
-export const TreeWindow = ({ add, build, setBuild }) => {
+export const TreeWindow = ({ add, build, setBuild, err,setErr }) => {
   console.log("---------  Modulo TreeWindow ---------");
   const [cy, setCy] = useState(null);
   const cyContainerRef = useRef(null);
@@ -20,6 +25,14 @@ export const TreeWindow = ({ add, build, setBuild }) => {
   const updateNumbers = (newNumber) => {
     setNumbers([...numbers, newNumber]);
   };
+
+  useEffect(() => {
+    if(err != false){
+      cy.nodes().remove(); // Eliminar todos los nodos
+      cy.edges().remove(); // Eliminar todas las aristas
+      setErr(!err);
+    }
+  }, [err]);
 
   useEffect(() => {
     if (add !== 0) {
@@ -60,10 +73,11 @@ export const TreeWindow = ({ add, build, setBuild }) => {
   }, [add, cy]);
 
   useEffect(() => {
-    if (build !== false) {
+    /* Acá pintamos el arbol - Cuando espicho Generar Arbol */
+    if (build != false) {
       let tree = buildTree(numbers);
       casePicker(cy, tree.root());
-      changePos(cy,tree.root().getValue(),300,400)
+      /*changePos(cy, tree.root().getValue(), 300, 400);*/
       cy.layout(Options).run();
       setBuild(false);
     }
