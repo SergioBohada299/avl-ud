@@ -4,7 +4,6 @@ import {
   drawNode,
   hasChildren,
   casePicker,
-  changePos,
 } from "../../utils/treeContext.js";
 import {
   addNode,
@@ -15,8 +14,15 @@ import {
   buildTree,
 } from "./../../utils/binariContext.js";
 import { Options } from "./../../utils/layaout.js";
+import {
+  BinarySearchTree,
+  BinarySearchTreeNode,
+  AvlTree,
+  AvlTreeNode
+} from '@datastructures-js/binary-search-tree';
 
-export const TreeWindow = ({ add, build, setBuild, err,setErr }) => {
+
+export const TreeWindow = ({ add, build, setBuild,setAdd,del }) => {
   console.log("---------  Modulo TreeWindow ---------");
   const [cy, setCy] = useState(null);
   const cyContainerRef = useRef(null);
@@ -25,14 +31,6 @@ export const TreeWindow = ({ add, build, setBuild, err,setErr }) => {
   const updateNumbers = (newNumber) => {
     setNumbers([...numbers, newNumber]);
   };
-
-  useEffect(() => {
-    if(err != false){
-      cy.nodes().remove(); // Eliminar todos los nodos
-      cy.edges().remove(); // Eliminar todas las aristas
-      setErr(!err);
-    }
-  }, [err]);
 
   useEffect(() => {
     if (add !== 0) {
@@ -75,13 +73,14 @@ export const TreeWindow = ({ add, build, setBuild, err,setErr }) => {
   useEffect(() => {
     /* Acá pintamos el arbol - Cuando espicho Generar Arbol */
     if (build != false) {
-      let tree = buildTree(numbers);
-      casePicker(cy, tree.root());
-      /*changePos(cy, tree.root().getValue(), 300, 400);*/
+      casePicker(cy, buildTree(numbers).root(),numbers.length);
       cy.layout(Options).run();
       setBuild(false);
     }
-  }, [build]);
+    if(del != 0){
+      cy.remove(`#${del}`);
+    }
+  }, [build,del,del]);
 
   console.log("add desde app -->" + add);
   console.log("--------- FIN Modulo Tree Window ---------");

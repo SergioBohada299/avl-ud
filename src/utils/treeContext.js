@@ -6,6 +6,10 @@ import {
   AvlTreeNode,
 } from "@datastructures-js/binary-search-tree";
 
+/* Nodos pos init */
+var nodeX = 0;
+var nodeY = 0;
+
 export const drawNode = (cont, value) => {
   console.log("Funcion draw node value:" + value);
   console.log("Funcion draw node cont:" + cont);
@@ -35,9 +39,18 @@ const addLink = (cont, node) => {
   console.log("Conexión hecha entre " + nodeVal + " y " + parent);
 };
 
-export const casePicker = (cont, node) => {
+const isRightLeaf = (node) => {
+  if (node.getParent().getLeft() == null) {
+    return true;
+  }else if(node.getParent().getLeft().getValue() < node.getValue()){
+    return true;
+  }
+};
+
+export const casePicker = (cont, node, treeLenght) => {
   console.log("------- Case Picker -------");
   console.log(node);
+
   if (node === null) {
     console.log("Caso null - Fin del árbol");
     console.log(node);
@@ -50,37 +63,88 @@ export const casePicker = (cont, node) => {
 
   if (nodeLeft !== null && nodeRight !== null) {
     console.log("Caso true - true");
+    if(treeLenght >= 7){
+      console.log("Lenght:"+treeLenght);
+      nodeX += 200;
+      nodeY += 200;
+    }else{
+      nodeX += 100;
+      nodeY += 100;
+    }
+
     console.log(node.hasLeft());
     console.log(node.hasRight());
     addLink(cont, nodeRight);
     addLink(cont, nodeLeft);
-    if(node.hasParent()){
+    if (node.hasParent()) {
       addLink(cont, node);
     }
-    caseBoth(cont, nodeLeft);
-    caseBoth(cont, nodeRight);
+    if(node.isRoot()){
+      changePosR(cont, nodeRight.getValue(), nodeX, nodeY);
+      changePosL(cont, nodeLeft.getValue(), nodeX, nodeY);
+    }else{
+      if (isRightLeaf(node)) {
+        changePosRNull(cont, node.getValue(),node.getParent().getValue(),treeLenght);
+      }else{
+        changePosLNull(cont, node.getValue(),node.getParent().getValue(),treeLenght);
+      }
+      changePosRNull(cont, nodeRight.getValue(),node.getValue(),treeLenght);
+      changePosLNull(cont, nodeLeft.getValue(),node.getValue(),treeLenght);
+    }
+
+    caseBoth(cont, nodeLeft,treeLenght);
+    caseBoth(cont, nodeRight,treeLenght);
     console.log("-----------------");
   } else if (nodeRight !== null) {
     console.log("Caso true - false");
+    if(node.isRoot()){
+      console.log("ups jeje");
+    }else if(isRightLeaf(node)) {
+      changePosRNull(cont, node.getValue(),node.getParent().getValue());
+    }else{
+      changePosLNull(cont, node.getValue(),node.getParent().getValue());
+    }
+    changePosRNull(cont, nodeRight.getValue(),node.getValue());
     console.log(node.hasRight());
     console.log(node.hasLeft());
     addLink(cont, nodeRight);
-    addLink(cont, node);
+    if(!node.isRoot()){
+      addLink(cont, node);
+    }
     caseRight(cont, nodeRight);
     console.log("-----------------");
   } else if (nodeLeft !== null) {
     console.log("Caso false - true");
+    if(node.isRoot()){
+      console.log("ups jeje");
+    }else if (isRightLeaf(node)) {
+      changePosRNull(cont, node.getValue(),node.getParent().getValue());
+    }else{
+      changePosLNull(cont, node.getValue(),node.getParent().getValue());
+    }
+    changePosLNull(cont, nodeLeft.getValue(),node.getValue());
     console.log(node.hasLeft());
     console.log(node.hasRight());
     addLink(cont, nodeLeft);
-    addLink(cont, node);
+    if(!node.isRoot()){
+      addLink(cont, node);
+    }
     caseLeft(cont, nodeLeft);
     console.log("-----------------");
   } else {
     console.log("Caso false - false");
     console.log(node.hasLeft());
     console.log(node.hasRight());
-    addLink(cont, node);
+    if(!node.isRoot()){
+      console.log("Caso root - false - false")
+    }
+    if (isRightLeaf(node)) {
+      changePosRNull(cont, node.getValue(),node.getParent().getValue(),0);
+      addLink(cont, node);
+    } else {
+      changePosLNull(cont, node.getValue(),node.getParent().getValue(),0);
+      addLink(cont, node);
+    }
     caseNull();
     console.log("-----------------");
   }
@@ -88,10 +152,10 @@ export const casePicker = (cont, node) => {
   console.log("------- FIN Case Picker -------");
 };
 
-const caseBoth = (cont, node) => {
+const caseBoth = (cont, node,treeLenght) => {
   console.log("CaseBoth");
-  casePicker(cont, node.getRight());
-  casePicker(cont, node.getLeft());
+  casePicker(cont, node.getRight(),treeLenght);
+  casePicker(cont, node.getLeft(),treeLenght);
 };
 
 const caseRight = (cont, node) => {
@@ -108,11 +172,83 @@ const caseNull = () => {
   console.log("caseNull - Fin del árbol");
 };
 
-export const changePos = (cont,node_id,x,y) => {
+const changePosR = (cont, node_id, x, y) => {
+  console.log("-------- Func changePosR ---------");
+  console.log("node ID:" + node_id);
+  console.log("node x:" + x);
+  console.log("node x:" + y);
   let nodeID = node_id;
   cont.$(`#${nodeID}`).position({
     x: x,
-    y: y
+    y: y,
   });
-}
+  console.log("-------- FIN Func changePos ---------");
+};
+
+const changePosRNull = (cont, node_id, parent_id,treeLenght) => {
+  console.log("-------- Func changePosRNull ---------");
+  console.log("node ID:" + node_id);
+  console.log("parent ID:" + parent_id);
+  console.log("treeLenght: "+treeLenght);
+  let x,y;
+  let parentPos = cont.$(`#${parent_id}`).position();
+  if(treeLenght>=7){
+    x = (parentPos.x)+200;
+    y = (parentPos.y)+200;
+  }else{
+    x = (parentPos.x)+100;
+    y = (parentPos.y)+100;
+  }
+
+  let nodeID = node_id;
+  console.log("node x:" + x);
+  console.log("node y:" + y);
+  console.log("parent pos:")
+  console.log(parentPos);
+  cont.$(`#${nodeID}`).position({
+    x: x,
+    y: y,
+  });
+  console.log("-------- FIN Func changePos ---------");
+};
+
+const changePosL = (cont, node_id, x, y) => {
+  console.log("-------- Func changePosL ---------");
+  console.log("node ID:" + node_id);
+  console.log("node x:" + x);
+  console.log("node x:" + y);
+  x *= -1;
+  let nodeID = node_id;
+  cont.$(`#${nodeID}`).position({
+    x: x,
+    y: y,
+  });
+  console.log("-------- FIN Func changePos ---------");
+};
+
+const changePosLNull = (cont, node_id, parent_id,treeLenght) => {
+  console.log("-------- Func changePosLNull ---------");
+  console.log("node ID:" + node_id);
+  console.log("parent ID:" + parent_id);
+  let x,y;
+  let parentPos = cont.$(`#${parent_id}`).position();
+  if(treeLenght>=7){
+    x = ((parentPos.x)-200);
+    y = (parentPos.y)+200;
+  }else{
+    x = ((parentPos.x)-100);
+    y = (parentPos.y)+100;
+  }
+  let nodeID = node_id;
+  console.log("node x:" + x);
+  console.log("node y:" + y);
+  console.log("parent pos:")
+  console.log(parentPos);
+  console.log("treeLenght: "+treeLenght);
+  cont.$(`#${nodeID}`).position({
+    x: x,
+    y: y,
+  });
+  console.log("-------- FIN Func changePos ---------");
+};
 

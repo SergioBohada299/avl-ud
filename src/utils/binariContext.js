@@ -13,6 +13,7 @@ import {
     return console.log(numsTree.find(value));
   };
 
+
   export const findValue = (value) => {
     console.log("Nodo buscado: "+numsTree.find(value));
     return numsTree.find(value);
@@ -50,4 +51,4 @@ import {
     console.log("---- Fin Func Build Tree ----"); 
     return numsTree;
   }
- 
+

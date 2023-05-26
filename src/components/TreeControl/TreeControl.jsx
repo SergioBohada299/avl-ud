@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 
-export const TreeControl = ({del,add,setAdd,setDel,setErr,setBuild,build,err}) => {
+export const TreeControl = ({del,add,setAdd,setDel,setBuild,build}) => {
   console.log("---------- Modulo TreeControl ----------");
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const handleSend = (e) => {
     e.preventDefault();
     let newAddNumber = document.getElementById('add').value;
-    let newDelNumber = document.getElementById('delete').value;
     console.log("Modulo TREE CONTROL - newAddNumber"+newAddNumber);
     setAdd(parseInt(newAddNumber));
-    setDel([...del,parseInt(newDelNumber)]);
   };
 
   const handleDeleteData = (e) => {
     e.preventDefault();
-    setIsButtonEnabled(false);
-    setErr(!err);
+    let newDelNumber = document.getElementById('delete').value;
+    setDel(parseInt(newDelNumber));
   };
 
   const buildTree = (e) => {
@@ -59,7 +57,7 @@ export const TreeControl = ({del,add,setAdd,setDel,setErr,setBuild,build,err}) =
         <button  className="btn btn-light " onClick={handleDeleteData}>
           Borrar datos
         </button>
-        <button  className="btn btn-light " onClick={buildTree} disabled={isButtonEnabled}>
+        <button  className="btn btn-light " onClick={buildTree}>
           Generar arbol
         </button>
       </div>
