@@ -72,6 +72,7 @@ export const TreeWindow = ({ add, build, setBuild,setAdd,del }) => {
 
   useEffect(() => {
     /* Acá pintamos el arbol - Cuando espicho Generar Arbol */
+  
     if (build != false) {
       casePicker(cy, buildTree(numbers).root(),numbers.length);
       cy.layout(Options).run();
@@ -79,6 +80,11 @@ export const TreeWindow = ({ add, build, setBuild,setAdd,del }) => {
     }
     if(del != 0){
       cy.remove(`#${del}`);
+      cy.remove('edge');
+      let treeDel = buildTree(numbers);
+      treeDel.remove(del)
+      casePicker(cy, treeDel.root(),numbers.length-1);
+      cy.layout(Options).run();
     }
   }, [build,del,del]);
 

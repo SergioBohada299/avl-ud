@@ -17,11 +17,6 @@ export const App = () => {
     console.log("Traido desde Control a app:"+del);
     console.log("--------- FIN Modulo ---------");
     
-
-
-    
-    
-
     return (
         <div className='App'>
             <div className='main--container'>
