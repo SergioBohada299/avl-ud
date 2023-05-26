@@ -54,14 +54,18 @@ export const casePicker = (cont, node) => {
     console.log(node.hasRight());
     addLink(cont, nodeRight);
     addLink(cont, nodeLeft);
+    if(node.hasParent()){
+      addLink(cont, node);
+    }
     caseBoth(cont, nodeLeft);
     caseBoth(cont, nodeRight);
     console.log("-----------------");
   } else if (nodeRight !== null) {
     console.log("Caso true - false");
-    console.log(node.hasLeft());
     console.log(node.hasRight());
+    console.log(node.hasLeft());
     addLink(cont, nodeRight);
+    addLink(cont, node);
     caseRight(cont, nodeRight);
     console.log("-----------------");
   } else if (nodeLeft !== null) {
@@ -69,6 +73,7 @@ export const casePicker = (cont, node) => {
     console.log(node.hasLeft());
     console.log(node.hasRight());
     addLink(cont, nodeLeft);
+    addLink(cont, node);
     caseLeft(cont, nodeLeft);
     console.log("-----------------");
   } else {
